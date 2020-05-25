@@ -1,10 +1,10 @@
 import requests
 
-url = 'https://briefcase-support.org/python?platform=linux&version=3.8&arch=x86_64'
-filename = 'support.tar.gz'
+url = "https://briefcase-support.org/python?platform=linux&version=3.8&arch=x86_64"
+filename = "support.tar.gz"
 
 response = requests.get(url, stream=True)
-with filename.open("wb") as f:
+with open(filename, "wb") as f:
     total = response.headers.get("content-length")
     if total is None:
         f.write(response.content)
