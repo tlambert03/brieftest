@@ -6,7 +6,7 @@ requires = ["setuptools>=42", "wheel", "setuptools_scm[toml]>=3.4", "briefcase"]
 write_to = "brieftest/_version.py"
 
 [tool.briefcase]
-project_name = "Hello World"
+project_name = "brieftest"
 bundle = "com.example"
 version = "0.0.1"
 url = "https://example.com/brieftest"
@@ -15,7 +15,7 @@ author = 'Jane Developer'
 author_email = "jane@example.com"
 
 [tool.briefcase.app.brieftest]
-formal_name = "Hello World"
+formal_name = "brieftest"
 description = "My first application"
 icon = "brieftest/resources/brieftest"
 sources = ['brieftest']
