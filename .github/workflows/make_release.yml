@@ -96,5 +96,5 @@ jobs:
         with:
           upload_url: ${{ steps.get_release.outputs.upload_url }}
           asset_path: brieftest-${{ env.tag }}-${{ runner.os }}.zip
-          asset_name: brieftest-${{ env.tag }-${{ runner.os }}}.zip
+          asset_name: brieftest-${{ env.tag }}-${{ runner.os }}.zip
           asset_content_type: application/zip
