@@ -15,10 +15,7 @@ formal_name = "Hello World"
 description = "My first application"
 icon = "src/helloworld/resources/helloworld"
 sources = ['src/helloworld']
-requires = [
-    'pyside2==5.13.0',
-    'numpy>=1.10.0',
-]
+requires = ['pyside2==5.13.0']
 
 
 [tool.briefcase.app.helloworld.macOS]

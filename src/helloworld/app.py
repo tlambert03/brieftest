@@ -3,7 +3,7 @@ My first application
 """
 import sys
 from PySide2 import QtWidgets, QtCore
-import numpy as np
+import ctypes
 
 
 class HelloWorld(QtWidgets.QMainWindow):
@@ -18,6 +18,6 @@ class HelloWorld(QtWidgets.QMainWindow):
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
-    main_window = HelloWorld()
+    _ = HelloWorld()
     QtCore.QTimer().singleShot(1000, app.quit)
     sys.exit(app.exec_())
