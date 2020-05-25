@@ -16,12 +16,12 @@ jobs:
           pip install briefcase requests
       - name: Just support
         run: |
-          sudo apt-get install python-cffi
+          sudo apt-get install -y python3-cffi
           python download.py
           tar -xzf support.tar.gz
           bin/python3 --version
-          echo LD_LIBRARY_PATH
-          bin/python3 -c "import os; print(os.environ['LD_LIBRARY_PATH'])"
+          echo $LD_LIBRARY_PATH
+          bin/python3 -c "import os; print(os.environ.get('LD_LIBRARY_PATH'))"
 
           bin/python3 -c "import ctypes"
       # - name: Make Bundle
