@@ -6,25 +6,29 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@master
-      - name: Install Python
-        uses: actions/setup-python@v1
-        with:
-          python-version: 3.8
-      - name: Install Dependencies
+      - name: Test support
         run: |
-          python -m pip install --upgrade pip 
-          pip install briefcase
-      - name: Make Bundle
-        run: |
-          briefcase create
-          briefcase build
-          briefcase package
-          briefcase run
-          mkdir -p ${{ github.workspace }}/artifact
-          mv ${{ env.output }} ${{ github.workspace }}/artifact
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: hellobriefcase-${{ github.sha }}
-          path: artifact/
+          curl https://briefcase-support.org/python?platform=linux&version=3%208&arch=x86_64
+          
+      # - name: Install Python
+      #   uses: actions/setup-python@v1
+      #   with:
+      #     python-version: 3.8
+      # - name: Install Dependencies
+      #   run: |
+      #     python -m pip install --upgrade pip 
+      #     pip install briefcase
+      # - name: Make Bundle
+      #   run: |
+      #     briefcase create
+      #     briefcase build
+      #     briefcase package
+      #     briefcase run
+      #     mkdir -p ${{ github.workspace }}/artifact
+      #     mv ${{ env.output }} ${{ github.workspace }}/artifact
+      # - name: Upload Artifact
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: hellobriefcase-${{ github.sha }}
+      #     path: artifact/
 
