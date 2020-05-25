@@ -1,0 +1,112 @@
+on:
+  push:
+    # Sequence of patterns matched against refs/tags
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+
+name: Create Release
+
+jobs:
+  build:
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@master
+      - name: Install Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip 
+          pip install briefcase
+      - name: get TAG
+        id: release_notes
+        run: |
+          TAG="${GITHUB_REF/refs\/tags\/v/}"  # clean tag
+          VER="${TAG/rc*/}"  # remove pre-release identifier
+          # https://help.github.com/en/actions/reference/workflow-commands-for-github-actions
+          echo "::set-env name=tag::$TAG"
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: ${{ env.tag }}
+          draft: false
+          prerelease: ${{ contains(github.ref, 'rc') }}
+      - name: Publish PyPI Package
+        uses: pypa/gh-action-pypi-publish@master
+        with:
+          user: __token__
+          password: ${{ secrets.pypi_password }}
+      
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./dist/napari-${{ env.tag }}.tar.gz
+          asset_name: napari-${{ env.tag }}.tar.gz
+          asset_content_type: application/gzip
+
+
+  bundle:
+    name: Bundle ${{ matrix.platform }}
+    needs: [build]
+    runs-on: ${{ matrix.platform }}
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [ubuntu-16.04, macos-latest, windows-latest]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@master
+      - name: Install Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip 
+          pip install briefcase
+      - name: get tag
+        run: |
+          TAG="${GITHUB_REF/refs\/tags\/v/}"  # clean tag
+          VER="${TAG/rc*/}"  # remove pre-release identifier
+          # https://help.github.com/en/actions/reference/workflow-commands-for-github-actions
+          echo "::set-env name=tag::$TAG"
+      - name: Make nix Bundle
+        if: runner.os != 'Windows'
+        env:
+          output: ${{ ( runner.os == 'macOS' && './macOS/*.dmg' ) || './linux/*.AppImage' }}
+          cmd: ${{ ( runner.os == 'macOS' && 'briefcase package --no-sign' ) || 'briefcase package' }}
+        run: |
+          briefcase create
+          briefcase build
+          ${{ env.cmd }}
+          e=$(echo asv.*)
+          echo "::set-env name=artifact::$${{ env.output }}"
+      - name: Make Windows Bundle
+        if: runner.os == 'Windows'
+        run: |
+          briefcase create
+          briefcase build
+          briefcase package
+          echo "::set-env name=artifact::windows\*.msi"
+      - name: Get Release
+        id: get_release
+        uses: bruceadams/get-release@v1
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.get_release.outputs.upload_url }}
+          asset_path: ${{ env.artifact }}
+          asset_name: napari-${{ matrix.platform }}-${{ env.tag }}
+          asset_content_type: application/gzip

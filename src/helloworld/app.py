@@ -3,7 +3,6 @@ My first application
 """
 import sys
 from PySide2 import QtWidgets, QtCore
-import ctypes
 
 
 class HelloWorld(QtWidgets.QMainWindow):
