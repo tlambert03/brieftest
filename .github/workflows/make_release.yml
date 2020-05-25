@@ -78,7 +78,6 @@ jobs:
           briefcase create
           briefcase build
           ${{ env.cmd }}
-          briefcase run
           zip -j brieftest-${{ env.tag }}-${{ runner.os }}.zip ${{ env.output }}
       - name: Make Windows Bundle
         if: runner.os == 'Windows'
@@ -86,7 +85,6 @@ jobs:
           briefcase create
           briefcase build
           briefcase package
-          briefcase run
           powershell "Compress-Archive windows\brieftest-${{ env.tag }}.msi brieftest-${{ env.tag }}-${{ runner.os }}.zip"
       - name: Get Release
         id: get_release
