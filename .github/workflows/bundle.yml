@@ -18,6 +18,10 @@ jobs:
         run: |
           python download.py
           ls
+          tar -xzf support.tar.gz
+          ls
+          bin/python3 --version
+          bin/python3 -c "import ctypes"
       # - name: Make Bundle
       #   run: |
       #     briefcase create
