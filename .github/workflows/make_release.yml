@@ -86,7 +86,7 @@ jobs:
           echo "::set-env name=artifact::windows\*.msi"
       - name: Get Release
         id: get_release
-        uses: bruceadams/get-release@v1
+        uses: bruceadams/get-release@v1.2.0
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         with:
