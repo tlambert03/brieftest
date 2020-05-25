@@ -78,16 +78,14 @@ jobs:
           briefcase create
           briefcase build
           ${{ env.cmd }}
-          FILE=$(echo ${{ env.output }})
-          echo $FILE
-          echo "::set-env name=bundle::$FILE"
+          zip -j brieftest-${{ runner.os }}-${{ env.tag }}.zip ${{ env.output }}
       - name: Make Windows Bundle
         if: runner.os == 'Windows'
         run: |
           briefcase create
           briefcase build
           briefcase package
-          echo "::set-env name=bundle::windows\brieftest-${{ env.tag }}.msi"
+          powershell "Compress-Archive windows\brieftest-${{ env.tag }}.msi brieftest-${{ runner.os }}-${{ env.tag }}.zip"
       - name: Get Release
         id: get_release
         uses: bruceadams/get-release@v1.2.0
@@ -96,5 +94,5 @@ jobs:
         with:
           upload_url: ${{ steps.get_release.outputs.upload_url }}
           asset_path: ${{ env.bundle }}
-          asset_name: napari-${{ matrix.platform }}-${{ env.tag }}
-          # asset_content_type: application/gzip
+          asset_name: brieftest-${{ runner.os }}-${{ env.tag }}.zip
+          asset_content_type: application/zip
