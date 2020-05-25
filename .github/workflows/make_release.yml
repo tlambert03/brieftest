@@ -61,6 +61,7 @@ jobs:
           python -m pip install --upgrade pip 
           pip install briefcase
       - name: get tag
+        shell: bash
         run: |
           TAG="${GITHUB_REF/refs\/tags\/v/}"  # clean tag
           VER="${TAG/rc*/}"  # remove pre-release identifier
@@ -75,8 +76,9 @@ jobs:
           briefcase create
           briefcase build
           ${{ env.cmd }}
-          e=$(echo asv.*)
-          echo "::set-env name=artifact::$${{ env.output }}"
+          FILE=$(echo ${{ env.output }})
+          echo $FILE
+          echo "::set-env name=artifact::$FILE"
       - name: Make Windows Bundle
         if: runner.os == 'Windows'
         run: |
