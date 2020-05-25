@@ -38,22 +38,6 @@ jobs:
           release_name: ${{ env.tag }}
           draft: false
           prerelease: ${{ contains(github.ref, 'rc') }}
-      - name: Publish PyPI Package
-        uses: pypa/gh-action-pypi-publish@master
-        with:
-          user: __token__
-          password: ${{ secrets.pypi_password }}
-      
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/napari-${{ env.tag }}.tar.gz
-          asset_name: napari-${{ env.tag }}.tar.gz
-          asset_content_type: application/gzip
-
 
   bundle:
     name: Bundle ${{ matrix.platform }}
