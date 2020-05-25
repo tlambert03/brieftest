@@ -16,10 +16,12 @@ jobs:
           pip install briefcase requests
       - name: Just support
         run: |
+          sudo apt-get install -y libffi-dev
           python download.py
           ls
           tar -xzf support.tar.gz
           ls
+
           bin/python3 --version
           bin/python3 -c "import ctypes"
       # - name: Make Bundle
