@@ -78,14 +78,16 @@ jobs:
           briefcase create
           briefcase build
           ${{ env.cmd }}
-          zip -j brieftest-${{ runner.os }}-${{ env.tag }}.zip ${{ env.output }}
+          briefcase run
+          zip -j brieftest-${{ env.tag }}-${{ runner.os }}.zip ${{ env.output }}
       - name: Make Windows Bundle
         if: runner.os == 'Windows'
         run: |
           briefcase create
           briefcase build
           briefcase package
-          powershell "Compress-Archive windows\brieftest-${{ env.tag }}.msi brieftest-${{ runner.os }}-${{ env.tag }}.zip"
+          briefcase run
+          powershell "Compress-Archive windows\brieftest-${{ env.tag }}.msi brieftest-${{ env.tag }}-${{ runner.os }}.zip"
       - name: Get Release
         id: get_release
         uses: bruceadams/get-release@v1.2.0
@@ -93,6 +95,6 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.get_release.outputs.upload_url }}
-          asset_path: brieftest-${{ runner.os }}-${{ env.tag }}.zip
-          asset_name: brieftest-${{ runner.os }}-${{ env.tag }}
+          asset_path: brieftest-${{ env.tag }}-${{ runner.os }}.zip
+          asset_name: brieftest-${{ env.tag }-${{ runner.os }}}.zip
           asset_content_type: application/zip
