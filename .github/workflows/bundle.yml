@@ -16,17 +16,16 @@ jobs:
           pip install briefcase requests
       - name: Just support
         run: |
-          ldconfig -p | grep libffi
-          ldconfig -p | grep libcffi
           sudo apt-get install -y python3-cffi libffi-dev
+
           ldconfig -p | grep libffi
-          ldconfig -p | grep libcffi
           python download.py
           tar -xzf support.tar.gz
           bin/python3 --version
           echo $LD_LIBRARY_PATH
           bin/python3 -c "import os; print(os.environ.get('LD_LIBRARY_PATH'))"
-
+          echo hi
+          ldd /lib/python3.8/lib-dynload/_ctypes*
           bin/python3 -c "import ctypes"
       # - name: Make Bundle
       #   run: |
