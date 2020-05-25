@@ -1,36 +1,40 @@
+# pyproject.toml
 [build-system]
-requires = ["briefcase"]
+requires = ["setuptools>=42", "wheel", "setuptools_scm[toml]>=3.4", "briefcase"]
+
+[tool.setuptools_scm]
+write_to = "brieftest/_version.py"
 
 [tool.briefcase]
 project_name = "Hello World"
 bundle = "com.example"
 version = "0.0.1"
-url = "https://example.com/helloworld"
+url = "https://example.com/brieftest"
 license = "BSD license"
 author = 'Jane Developer'
 author_email = "jane@example.com"
 
-[tool.briefcase.app.helloworld]
+[tool.briefcase.app.brieftest]
 formal_name = "Hello World"
 description = "My first application"
-icon = "src/helloworld/resources/helloworld"
-sources = ['src/helloworld']
-requires = ['pyside2==5.13.0']
+icon = "brieftest/resources/brieftest"
+sources = ['brieftest']
+requires = ['pyside2>=5.14.0']
 
 
-[tool.briefcase.app.helloworld.macOS]
+[tool.briefcase.app.brieftest.macOS]
 requires = []
 
-[tool.briefcase.app.helloworld.linux]
+[tool.briefcase.app.brieftest.linux]
 requires = []
 system_requires = []
 
-[tool.briefcase.app.helloworld.windows]
+[tool.briefcase.app.brieftest.windows]
 requires = []
 
 # Mobile deployments
-[tool.briefcase.app.helloworld.iOS]
+[tool.briefcase.app.brieftest.iOS]
 requires = []
 
-[tool.briefcase.app.helloworld.android]
+[tool.briefcase.app.brieftest.android]
 requires = []

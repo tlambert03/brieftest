@@ -59,7 +59,9 @@ jobs:
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip 
-          pip install briefcase
+          pip install briefcase tomlkit
+          pip install .
+          python .github/workflows/update_version.py
       - name: get tag
         shell: bash
         run: |
@@ -78,14 +80,14 @@ jobs:
           ${{ env.cmd }}
           FILE=$(echo ${{ env.output }})
           echo $FILE
-          echo "::set-env name=artifact::$FILE"
+          echo "::set-env name=bundle::$FILE"
       - name: Make Windows Bundle
         if: runner.os == 'Windows'
         run: |
           briefcase create
           briefcase build
           briefcase package
-          echo "::set-env name=artifact::windows\*.msi"
+          echo "::set-env name=bundle::windows\brieftest-${{ env.tag }}.msi"
       - name: Get Release
         id: get_release
         uses: bruceadams/get-release@v1.2.0
@@ -93,6 +95,6 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.get_release.outputs.upload_url }}
-          asset_path: ${{ env.artifact }}
+          asset_path: ${{ env.bundle }}
           asset_name: napari-${{ matrix.platform }}-${{ env.tag }}
-          asset_content_type: application/gzip
+          # asset_content_type: application/gzip

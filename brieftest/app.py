@@ -11,7 +11,7 @@ class HelloWorld(QtWidgets.QMainWindow):
         self.init_ui()
 
     def init_ui(self):
-        self.setWindowTitle("helloworld")
+        self.setWindowTitle("brieftest")
         self.show()
 
 
