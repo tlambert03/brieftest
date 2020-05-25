@@ -18,7 +18,8 @@ jobs:
         run: |
           briefcase create
           briefcase build
-          biefcase package
+          briefcase package
+          briefcase run
           mkdir -p ${{ github.workspace }}/artifact
           mv ${{ env.output }} ${{ github.workspace }}/artifact
       - name: Upload Artifact
