@@ -23,3 +23,4 @@ jobs:
           ls
           bin/python3 --version
           bin/python3 -c "import ctypes"
+          bin/python3 -c "import ctypes; print(ctypes.__file__);"

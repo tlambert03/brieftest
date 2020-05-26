@@ -67,7 +67,6 @@ jobs:
         run: |
           TAG="${GITHUB_REF/refs\/tags\/v/}"  # clean tag
           VER="${TAG/rc*/}"  # remove pre-release identifier
-          # https://help.github.com/en/actions/reference/workflow-commands-for-github-actions
           echo "::set-env name=tag::$TAG"
       - name: Make nix Bundle
         if: runner.os != 'Windows'
