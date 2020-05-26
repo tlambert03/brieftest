@@ -1,0 +1,25 @@
+on: [push, pull_request]
+
+jobs:
+  bundle:
+    runs-on: ubuntu-16.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@master
+      - name: Install Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip 
+          pip install briefcase requests
+      - name: Just support
+        run: |
+          sudo apt-get install -y libffi-dev
+          curl -L https://www.dropbox.com/s/29x4k0h5kqv9omp/Python-3.8-linux-x86_64-support.b1.tar.gz?dl=0 -o support.tar.gz
+          ls
+          tar -xzf support.tar.gz
+          ls
+          bin/python3 --version
+          bin/python3 -c "import ctypes"
