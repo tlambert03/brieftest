@@ -19,7 +19,7 @@ formal_name = "brieftest"
 description = "My first application"
 icon = "brieftest/resources/brieftest"
 sources = ['brieftest']
-requires = ['pyside2>=5.14.0']
+requires = ['pyside2>=5.14.0', 'numpy']
 
 
 [tool.briefcase.app.brieftest.macOS]

@@ -3,6 +3,7 @@ My first application
 """
 import sys
 from PySide2 import QtWidgets, QtCore
+import numpy as np
 
 
 class HelloWorld(QtWidgets.QMainWindow):
